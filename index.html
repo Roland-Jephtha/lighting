@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Lighter · mobile with working hamburger</title>
+  <title>Lighter · connect under chart</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -193,8 +193,23 @@
     .pencil { font-size: 10px; cursor: pointer; color: var(--text2); }
     .accounts-section { padding: 12px 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text2); display: flex; justify-content: space-between; align-items: center; }
 
-    /* positions strip (always visible) */
-    .positions-strip { height: 70px; background: var(--bg2); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text2); font-size: 13px; }
+    /* positions strip (always visible) – contains text (desktop) and button (mobile) */
+    .positions-strip {
+      height: 70px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text2);
+      font-size: 13px;
+    }
+    .positions-strip .desktop-text {
+      display: inline;
+    }
+    .positions-strip .mobile-connect-btn {
+      display: none; /* hidden on desktop */
+    }
 
     /* modal */
     .modal-overlay {
@@ -235,7 +250,7 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-    /* ----- mobile styles (hamburger right, buy/sell bottom) ----- */
+    /* ----- mobile styles (hamburger right, buy/sell bottom, button under chart) ----- */
     .mobile-buy-sell {
       display: none; /* hidden on desktop */
     }
@@ -309,6 +324,31 @@
       .mobile-buy-btn:active, .mobile-sell-btn:active {
         filter: brightness(0.85);
       }
+
+      /* positions strip: hide text, show blue connect button */
+      .positions-strip .desktop-text {
+        display: none;
+      }
+      .positions-strip .mobile-connect-btn {
+        display: inline-block;
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 40px;
+        padding: 12px 32px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(91,108,255,0.3);
+        transition: all 0.15s;
+        max-width: 280px;
+        width: 80%;
+        text-align: center;
+      }
+      .positions-strip .mobile-connect-btn:active {
+        background: var(--accent2);
+        transform: scale(0.98);
+      }
     }
 
     /* extra small tweaks */
@@ -323,7 +363,7 @@
 <!-- NAVBAR with hamburger (right side on mobile) -->
 <nav class="navbar">
   <a class="logo" href="#">
-    <div class="logo-icon" style = ""><img src="android-icon.png" alt=""></div>
+    <div class="logo-icon"><img src="android-icon.png" alt=""></div>
     Lighter
   </a>
   <!-- hamburger button (visible on mobile, right-aligned) -->
@@ -341,7 +381,7 @@
     <div class="block-badge">Block <span id="blockNum">187073548</span> ▾</div>
     <div class="icon-btn">🌐</div>
     <div class="icon-btn">⚙</div>
-    <button id="mainConnectBtn" class="connect-btn" style="background-color: background: var(--bg3); border: 1px solid var(--border);"    onclick="openModal()">Connect Wallet</button>
+    <button id="mainConnectBtn" class="connect-btn" style="background: var(--accent); border: 1px solid var(--border);" onclick="openModal()">Connect Wallet</button>
   </div>
 </nav>
 
@@ -352,8 +392,7 @@
     <div class="ticker-bar">
       <div class="star-btn">☆</div>
       <div class="pair-selector">
-        <!-- <div class="pair-icon"></div> -->
-         <img src="android-icon.png" alt="">
+        <img src="android-icon.png" alt="">
         <span class="pair-name">LIT/USDC</span>
         <span class="spot-badge">SPOT</span>
         <span style="color:var(--text2);font-size:11px;margin-left:2px;">▾</span>
@@ -405,8 +444,11 @@
       <div class="bottom-tab">Funding History</div>
     </div>
 
-    <!-- "Please connect your wallet" strip -->
-    <div class="positions-strip">Please connect your wallet to view positions</div>
+    <!-- Positions strip: desktop text + mobile blue button (under chart) -->
+    <div class="positions-strip">
+      <span class="desktop-text">Please connect your wallet to view positions</span>
+      <button class="mobile-connect-btn" onclick="openModal()">Connect Wallet</button>
+    </div>
   </div>
 
   <!-- right panel (order book) – hidden on mobile -->
